@@ -1,0 +1,29 @@
+{% extends 'tasks/base.html' %}
+{% block title %}Task Details{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <h2>{{ object.title }}</h2>
+  </div>
+  <div class="card-body">
+    <p><strong>Description:</strong></p>
+    <p>{{ object.description|linebreaks }}</p>
+    <p><strong>Status:</strong> {{ object.status }}</p>
+    <p><strong>Due Date:</strong> {{ object.due_date|date:"Y-m-d H:i" }}</p>
+    {% if object.category %}
+      <p><strong>Category:</strong> {{ object.category }}</p>
+    {% endif %}
+    {% if object.priority %}
+      <p><strong>Priority:</strong> {{ object.priority }}</p>
+    {% endif %}
+    <p><strong>Created At:</strong> {{ object.created_at|date:"Y-m-d H:i" }}</p>
+    <p><strong>Last Updated:</strong> {{ object.updated_at|date:"Y-m-d H:i" }}</p>
+  </div>
+  <div class="card-footer">
+    <a href="{% url 'task-update' object.pk %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'task-delete' object.pk %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'task-list' %}" class="btn btn-secondary">Back to List</a>
+  </div>
+</div>
+{% endblock %}

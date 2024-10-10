@@ -1,0 +1,43 @@
+{% extends 'tasks/base.html' %}
+{% block title %}My Tasks{% endblock %}
+{% block content %}
+<h2>My Tasks</h2>
+<form method="get" class="mb-3">
+    <select name="status" onchange="this.form.submit()">
+        <option value="All" {% if status == 'All' %}selected{% endif %}>All</option>
+        <option value="Pending" {% if status == 'Pending' %}selected{% endif %}>Pending</option>
+        <option value="Completed" {% if status == 'Completed' %}selected{% endif %}>Completed</option>
+    </select>
+</form>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Category</th>
+            <th>Priority</th>
+            <th>Due Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td><a href="{% url 'task-detail' task.pk %}">{{ task.title }}</a></td>
+            <td>{{ task.status }}</td>
+            <td>{{ task.category }}</td>
+            <td>{{ task.priority }}</td>
+            <td>{{ task.due_date|date:"Y-m-d H:i" }}</td>
+            <td>
+                <a href="{% url 'task-update' task.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{% url 'task-delete' task.pk %}" class="btn btn-sm btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No tasks found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
